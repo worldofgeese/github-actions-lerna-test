@@ -1,0 +1,22 @@
+name: Publish Garden release
+
+on:
+  workflow_dispatch: 
+
+permissions:
+  contents: read
+
+jobs:
+  release-npm:
+    runs-on: macos-latest
+    steps:
+      - name: Set Environment Variables
+        run: echo "SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-8)" >> "$GITHUB_ENV"
+      - uses: actions/checkout@v4.1.1
+      - name: Use Node.js 21.1.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21.1.0
+          cache: 'npm'
+
+# actions/setup-node should be v4 to avoid long run times
